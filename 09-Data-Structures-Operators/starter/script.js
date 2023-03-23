@@ -60,35 +60,199 @@ const restaurant = {
   },
 
   orderPizza: function (mainIngredient, ...otherIngredients) {
-    console.log(mainIngredient);
-    console.log(otherIngredients);
+    // console.log(mainIngredient);
+    // console.log(otherIngredients);
   },
 };
 // // the course goes from bottom to top in this file
 
-//Looping objects indirectly, keys, values and entries
+// SUNMMARY, WHICH DATA STRUCTURE TO USE
 
-//PROPERTY NAMES (MON, TUE, FRI, ETC) test
-//The Object.keys() static method returns an array of a given object's own enumerable string-keyed property names.
-const properties = Object.keys(openingHours);
-console.log(properties);
+//There are escensially 3 sources of data (Examples from the dice game from before)
+//1. From program itself: data directly in the source code; like the "You win" or "you lose" messages
+//2. From the UI: data input from the user or data written in the DOM; like the number the user inputs to guess the dice
+//3. From external sources: Data fetched, normally from a web API
 
-//Here we use the variable created above in a FOR OF loop to log a string for each day of the week its open
-let openStr = `We are open on ${properties.lenght} days`;
+// If we need a simple list of values we use ARRAYS or SETS
+// If we need a pair of KEYS and VALUEs, we use OBJECTS or MAPS
 
-for (const day of properties) {
-  openStr += `${day}`;
-}
+// When getting data from an API, it will come in format of JSON
 
-//PROPERTY VALUES (0-12, 11-23, etc)
-const values = Object.values(openingHours);
+//USE ARRAYS WHEN:
+// - Need ordered list of values that might contain duplicates
+// -Use when you need to manipulate data
 
-//ENTIRE OBJECT
-const entries = Object.entries(openingHours);
+//USE SETS WHEN:
+// - Need to work with unique values
+// - use when performance is necessary, it can be 10x faster than arrays
+// - use to remove duplicate values from an array
 
-for (const [key, { open, close }] of entries) {
-  console.log(`on ${key} we open at ${open} and close at ${close}`);
-}
+//USE OBJECTS WHEN:
+// - More traditional key/value store
+// - Easier to write and access using . and []
+// - If you need to use functions (methods) as values
+// - Most likely when using JSON data
+
+//USE MAPS WHEN:
+// - Better performance
+// - Keys can have any data type (e.g booleans)
+// - Easy to iterate and to compute size
+// - Simply need to map keys to values and use keys that are not strings
+
+// //ITERATING MAPS
+// //There is another way to add elements to a map, without using the rest operator
+// //by creating an array of arrays, the first element is the key and the second the value inside each array
+// const question = new Map([
+//   ['question', 'What is the best programming language?'],
+//   [1, 'C'],
+//   [2, 'Java'],
+//   [3, 'JS'],
+//   ['correct', 3],
+//   [true, 'Correct!'],
+//   [false, 'Try again'],
+// ]);
+
+// console.log(question);
+// //The syntax is the same as when using Object.entries(), so we can easily convert objects to maps
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+// //Iteration on maps
+// //This will log only the elements of the map for which the keys are a number (so only the first 3)
+// for (const [key, value] of question) {
+//   if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+// }
+// console.log(question.get('question'));
+
+// //This is a small quiz, that takes your answer and then compares it with an element of the map to return its value if correct
+// const answer = Number(prompt('Your Answer'));
+// console.log(answer);
+
+// console.log(question.get(answer === question.get('correct')));
+// //Breaking down:
+
+// //answer === question.get('correct') THIS WILL RETURN TRUE WHEN THE VALUE ENTERED IS 3
+// //question.get(answer === question.get('correct')) THIS WILL TRY TO NOW FIND 'TRUE' INSIDE THE MAP, AND RETURNS THE VALUE OF THE KEY TRUE
+
+// //Sometimes we need to convert a map back to an array with the spread operator
+
+// const newArray = [...question]
+
+// //MAPS
+// //A map is a data structure that we can use to map values to keys
+// //The main difference between an object and maps is that the keys can have any type of key (In objects they can only be strings)
+
+// //Easiest way is to create an empty map and then fill it up with set method
+// const rest = new Map();
+// rest.set('name', 'Classico italiano');
+// rest.set(1, 'Firenze, Italy');
+// rest.set(2, 'Lisbon, Portugal');
+// //The set method returns the updated map, so we can chain them
+// rest
+//   .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+//   .set('open', 11)
+//   .set('close', 23)
+//   .set(true, 'We are open')
+//   .set(false, 'We are closed');
+
+// // console.log(rest.get('name'));
+// // console.log(rest.get(true));
+
+// //We can have boolean keys which is useful
+// const time = 21;
+// rest.get(time > rest.get('open') && time < rest.get('close'));
+
+// //Cn also use has and delete
+// rest.has('categories'); // would log TRUE
+// rest.delete(2); // this would delete the second element
+// //Can also use .size
+// console.log(rest.size);
+// //Can also clear it and leave it empty
+// //rest.clear();
+
+// //We can also use arrays and objects as map keys
+
+// //This will set the array [1,2] as a kety for the value Test
+// rest.set([1, 2], 'Test');
+// console.log(rest);
+// //However, we cannot use get directly to an array, as even if it contains the same values it will be a different array
+// console.log(rest.get([1, 2])); // This will log undefined
+
+// //So we have to previously set the array so it all points to the same place in memory
+// const arr = [1, 2];
+// rest.set(arr, 'Test');
+// console.log(rest.get(arr)); // This will log Test
+
+// //We can also use objects as keys, and here is ane xample adding a DOM element to a map
+
+// rest.set(document.querySelector('h1'), 'heading');
+// console.log(rest);
+
+// //SETS
+// //A set is a collection of unique values, a set is iterable like an array
+
+// //Here we are creating a set with an array that contains duplicates
+// const ordersSet = new Set(['Pasta', 'Pizza', 'Pizza', 'Rissoto', 'Pasta', 'Pizza'])
+// //when we log it, it simply logs the values once and ignores the duplicates
+// console.log(ordersSet)
+
+// //we can get the size of a set, which is the number of elements in the set (like .length for arrays but uses .size)
+// console.log(ordersSet.size)
+// //check if the set has something, below evaluates in True and False respectively
+// console.log(ordersSet.has('Pizza'))
+// console.log(ordersSet.has('Bread'))
+
+// //Add stuff to a set, even if you do it twice, it will only add it once as a set has unique elements
+// ordersSet.add('Garlick Bread')
+// ordersSet.add('Garlick Bread')
+
+// //We can also delete elements
+// ordersSet.delete('Risotto')
+// //Delete the elements of a set, but not the set
+// ordersSet.clear()
+
+// //Can also loop a set, this would log each element inside the set in each loop of the FOR OF
+// for (const order of ordersSet) console.log(order)
+
+// //Example
+// //array with employees
+// const staff = ['Waiter', 'Cheff', 'Waiter', 'Manager', 'Chef', 'Waiter']
+
+// //If we want to know how many unique positions are in our restaurant, we create a set of it
+// const staffUnique = new Set(staff)
+// console.log(staffUnique)
+//
+
+// //The spread operator works in all iterables, so we can use it in sets to easily create an array with unique values from a set
+// const staffUniqueArr = [...new Set(staff)]
+// console.log(staffUniqueArr)
+
+// //Arrays can use duplicates and order matters
+// //Sets cannot have duplicates and order does not matter
+
+// //Looping objects indirectly, keys, values and entries
+
+// //PROPERTY NAMES (MON, TUE, FRI, ETC) test
+// //The Object.keys() static method returns an array of a given object's own enumerable string-keyed property names.
+// const properties = Object.keys(openingHours);
+// console.log(properties);
+
+// //Here we use the variable created above in a FOR OF loop to log a string for each day of the week its open
+// let openStr = `We are open on ${properties.lenght} days`;
+
+// for (const day of properties) {
+//   openStr += `${day}`;
+// }
+
+// //PROPERTY VALUES (0-12, 11-23, etc)
+// const values = Object.values(openingHours);
+
+// //ENTIRE OBJECT
+// const entries = Object.entries(openingHours);
+
+// for (const [key, { open, close }] of entries) {
+//   console.log(`on ${key} we open at ${open} and close at ${close}`);
+// }
 
 // //We can check if a method exist before calling it
 // console.log(restaurant.order?.(0, 1) ?? 'METHOD DOES NOT EXIST');
