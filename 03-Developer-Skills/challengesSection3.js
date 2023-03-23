@@ -1,0 +1,31 @@
+/*
+Given an array of forecasted maximum temperatures, the thermometer displays a string with these temperatures.
+
+Example: [17, 21, 23] will print "... 17ºC in 1 days ... 21ºC in 2 days ... 23ºC in 3 days ..."
+
+Create a function 'printForecast' which takes in an array 'arr' and logs a string like the above to the console.
+
+Use the problem-solving framework: Understand the problem and break it up into sub-problems!
+
+TEST DATA 1: [17, 21, 23]
+TEST DATA 2: [12, 5, -5, 0, 4]
+*/
+
+// problem 1: i is one day behind - FIXED with +1
+//problem 2: its not only one string - FIXED by pushing everything to an array and grabing the wanted index
+
+const arr1 = [17, 21, 23];
+const arr2 = [12, 5, -5, 0, 4];
+const arr = arr1.concat(arr2);
+
+let str = "";
+let all = [];
+const printForecast = function (array) {
+  for (let i = 0; i < array.length; i++) {
+    str += `... ${array[i]}ºC in ${i + 1} days`;
+    all.push(str);
+  }
+};
+
+printForecast(arr);
+console.log(all[all.length - 1]);
