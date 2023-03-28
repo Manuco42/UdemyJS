@@ -66,6 +66,160 @@ const restaurant = {
 };
 // // the course goes from bottom to top in this file
 
+//WORKING WITH STRINGS
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+//We can get the character of a string as if it were an array by its position
+console.log(plane[0]);
+//Can do the same directly on a string
+console.log('B737'[0]); // B
+console.log(airline.length); // 17
+
+console.log(airline.indexOf('r')); // 6, first 'r'
+console.log(airline.lastIndexOf('r')); // 10, last 'r'
+
+//This is case sensitive
+console.log(airline.indexOf('Portugal')); // 8
+console.log(airline.indexOf('portugal')); // -1, cause it cannot find it
+
+//slice returns a partial copy of an array or string, starting at the indicated position, 4 in this case
+console.log(airline.slice(4)); // Air Portugal
+//we can also specify an end parameter. It stops right before end index 7 so it does not include the 7th char
+console.log(airline.slice(4, 7)); // Air
+
+console.log(airline.slice(0, airline.indexOf(' '))); // TAP
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); // Portugal
+
+//can also use negative numbers to start counting from the end
+console.log(airline.slice(-2)); // al
+
+//function that checks if a seat is middle seat
+const checkMiddleSeat = function (seat) {
+  //B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log('You got middle seat');
+  else console.log('you got lucky');
+};
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+console.log(airline.toLowerCase);
+console.log(airline.toUpperCase);
+console.log('string'.toUpperCase);
+
+//Fix capitalizatiojn in a name
+const passenger = 'jOnAs'; // Jonas
+const passengerLower = passenger.toLocaleLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+
+console.log(passengerCorrect);
+
+//Comparing email
+const email = 'hello@jonas.io';
+const loginEmail = '  Hello@Jonas.Io \n';
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimmedEmail = lowerEmail.trim(); // trim() method removes the spaces and enter characters
+
+//easier version
+const normalized = loginEmail.toLowerCase().trim();
+
+//replacing
+const priceGB = '288,97GBP';
+const priceUS = priceGB.replace('GBP', '$').replace(',', '.');
+console.log(priceUS);
+
+const announcement =
+  'All passengers come to boarding door 23. Boarding door 23!';
+console.log(announcement.replaceAll('door', 'gate'));
+
+//Same but with regular expression (CONFUSING AND SHIT)
+console.log(announcement.replace(/door/g, 'gate'));
+
+//booleans
+
+const plane1 = 'A320neo';
+console.log(plane1.includes('A320')); // true
+console.log(plane1.startsWith('Air')); // false
+
+if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+  console.log('Part of the new Airbus family');
+}
+
+//Practice
+
+const checkBaggage = function (items) {
+  //its important to always turn everything to lower case when comparing strings
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('you are not allowed onboard');
+  } else {
+    console.log('Welcome aboard');
+  }
+};
+
+checkBaggage('I have a laptop, Food, and a Knife');
+checkBaggage('I have socks, and camera');
+checkBaggage('I have snacks, and a gun');
+
+// SPLIT method
+//Allows us to split a string based on a divider string
+
+console.log('a+very+nice+string'.split('+')); //We specified the divider string as the + sign
+// This will return an array containing each string divided, so ['a','very','nice','string']
+
+console.log('Jonas Schmedtmann'.split(' '));
+
+//We can deconstruct directly and this is very powerful
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+console.log(firstName);
+
+//JOIN method (oposite of split)
+['Mr', firstName, lastName.toUpperCase()].join(' '); // it uses the space to add between strings when joining
+
+const namesUpper = [];
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  for (const n of names) {
+    namesUpper.push(n[0].toUpperCase() + n.slice(1));
+  }
+  console.log(namesUpper.join(' '));
+};
+
+capitalizeName('manuel gimenez');
+capitalizeName('jessica ann smith davis');
+
+//PADDING
+const message = 'Go to gate 23';
+console.log(message.padStart(25, '+')); //adds padding to the beggining of a string so the total lenght is the same paramenter, 25 in this case, using the second parameter: ++++++++++++Go to gate 23
+console.log(message.padEnd(25, '+')); //adds padding to the end of a string so the total lenght is the same paramenter, 25 in this case, using the second parameter: Go to gate 23++++++++++++
+
+//credit card masking. This will mask the first 12 numbers of a credit card and only show the last 4, with * replacing the firsty numbers
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(1234456778911234));
+console.log(maskCreditCard('1234456778911234')); //also works with strings
+
+//REPEAT
+const message2 = 'Bad weather... All departures delayed';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'A'.repeat(n)}`);
+};
+
+planesInLine(5);
+
 // SUNMMARY, WHICH DATA STRUCTURE TO USE
 
 //There are escensially 3 sources of data (Examples from the dice game from before)
